@@ -57,26 +57,26 @@ diff $OLD/bin/setenv.sh $NEW/bin/setenv.sh || true
 confirm "Copy the file from old instance? [y/N]" && cp -v $OLD/bin/setenv.sh $NEW/bin/setenv.sh
 
 echo
-echo "Comparing setenv.sh"
-echo "==================="
+echo "Comparing crowd.properties"
+echo "=========================="
 diff $OLD/atlassian-jira/WEB-INF/classes/crowd.properties $NEW/atlassian-jira/WEB-INF/classes/crowd.properties || true
 confirm "Copy the file from old instance? [y/N]" && cp -v $OLD/atlassian-jira/WEB-INF/classes/crowd.properties $NEW/atlassian-jira/WEB-INF/classes/crowd.properties
 
 echo
 echo "Comparing seraph-config.xml"
-echo "==================="
+echo "==========================="
 diff $OLD/atlassian-jira/WEB-INF/classes/seraph-config.xml $NEW/atlassian-jira/WEB-INF/classes/seraph-config.xml || true
 confirm "Copy the file from old instance? [y/N]" && cp -v $OLD/atlassian-jira/WEB-INF/classes/seraph-config.xml $NEW/atlassian-jira/WEB-INF/classes/seraph-config.xml
 
 echo
 echo "Comparing jira-application.properties"
-echo "==================="
+echo "====================================="
 diff $OLD/atlassian-jira/WEB-INF/classes/jira-application.properties $NEW/atlassian-jira/WEB-INF/classes/jira-application.properties || true
 confirm "Copy the file from old instance? [y/N]" && cp -v $OLD/atlassian-jira/WEB-INF/classes/jira-application.properties $NEW/atlassian-jira/WEB-INF/classes/jira-application.properties
 
 echo
 echo "Comparing log4j.properties"
-echo "==================="
+echo "=========================="
 diff $OLD/atlassian-jira/WEB-INF/classes/log4j.properties $NEW/atlassian-jira/WEB-INF/classes/log4j.properties || true
 confirm "Copy the file from old instance? [y/N]" && cp -v $OLD/atlassian-jira/WEB-INF/classes/log4j.properties $NEW/atlassian-jira/WEB-INF/classes/log4j.properties
 
@@ -88,6 +88,12 @@ if [[ -n $MYSQL ]]; then
 else
   echo "MySQL JDBC driver not found."
 fi
+
+USER=$(stat -L -c '%U' $OLD)
+GROUP=$(stat -L -c '%G' $OLD)
+echo
+echo "$OLD was owned by $USER.$GROUP. Execute chown -R on $NEW?"
+confirm && chown -R $USER.$GROUP $NEW
 
 echo
 if [[ -s "$OLD" ]]; then
